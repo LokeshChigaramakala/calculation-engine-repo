@@ -1,0 +1,4 @@
+{"Transaction_ID":1,"Transaction_code":"CGDLT","trans_amt":"20"}
+{"Transaction_ID":2,"Transaction_code":"CGDST","trans_amt":"10"}
+{"Transaction_ID":3,"Transaction_code":"OTHER","trans_amt":"NULL"}
+{"Transaction_ID":4,"Transaction_code":"CGDLT","trans_amt":"25"}
