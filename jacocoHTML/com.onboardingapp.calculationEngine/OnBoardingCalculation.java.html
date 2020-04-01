@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OnBoardingCalculation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculation-engine</a> &gt; <a href="index.source.html" class="el_package">com.onboardingapp.calculationEngine</a> &gt; <span class="el_source">OnBoardingCalculation.java</span></div><h1>OnBoardingCalculation.java</h1><pre class="source lang-java linenums">package com.onboardingapp.calculationEngine;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.SaveMode;
+
+import com.onboardingapp.metadata.CalculationRequest;
+
+<span class="fc" id="L11">public class OnBoardingCalculation implements CalculationEngine {</span>
+
+	@Override
+	public void OnBoardingCalculation() throws IOException {
+		// TODO Auto-generated method stub
+<span class="fc" id="L16">		 	CalculationRequest cr= new CalculationRequest();</span>
+<span class="fc" id="L17">		 	System.setProperty(&quot;hadoop.home.dir&quot;, &quot;C://winutils&quot;); </span>
+<span class="fc" id="L18">	        List&lt;String&gt; proplist = cr.propertiesCheck();</span>
+<span class="fc" id="L19">	        String TargetPath=proplist.get(0);</span>
+<span class="fc" id="L20">	        String Query=proplist.get(1);</span>
+<span class="fc" id="L21">	        String JsonPath = proplist.get(2);</span>
+<span class="fc" id="L22">	        String CSVPath = proplist.get(3);</span>
+<span class="fc" id="L23">	        String d=proplist.get(4);</span>
+
+<span class="fc" id="L25">	        Dataset transcore_df = this.transcoreMethod(JsonPath);</span>
+<span class="fc" id="L26">	        Dataset transcorelot_df=this.transcorelotMethod(CSVPath,d);</span>
+<span class="fc" id="L27">	        transcore_df.createOrReplaceTempView(&quot;json_vw&quot;);</span>
+<span class="fc" id="L28">	        transcorelot_df.createOrReplaceTempView(&quot;csv_vw&quot;);</span>
+
+<span class="fc" id="L30">	        Dataset resultdf = sparksession.sql(Query);</span>
+<span class="fc" id="L31">	        resultdf.repartition(1).write().mode(SaveMode.Overwrite)</span>
+<span class="fc" id="L32">	        .option(&quot;header&quot;, true).json(TargetPath);</span>
+<span class="fc" id="L33">	        resultdf.show();</span>
+		
+<span class="fc" id="L35">	}</span>
+	public Dataset transcoreMethod(String JsonPath)
+    {
+<span class="fc" id="L38">        Dataset transcore_df = sparksession.read().format(&quot;json&quot;)</span>
+<span class="fc" id="L39">                .option(&quot;header&quot;, true)</span>
+<span class="fc" id="L40">                .option(&quot;inferSchema&quot;, true)</span>
+<span class="fc" id="L41">                .load(JsonPath);</span>
+<span class="fc" id="L42">        return transcore_df;</span>
+    }
+	public Dataset transcorelotMethod(String CSVPath,String d)
+    {
+<span class="fc" id="L46">        Dataset transcorelot_df = sparksession.read().format(&quot;csv&quot;)</span>
+<span class="fc" id="L47">                .option(&quot;header&quot;, true)</span>
+<span class="fc" id="L48">                .option(&quot;delimiter&quot;,d)</span>
+<span class="fc" id="L49">                .option(&quot;inferSchema&quot;, true)</span>
+<span class="fc" id="L50">                .load(CSVPath);</span>
+<span class="fc" id="L51">        return transcorelot_df;</span>
+    }
+
+
+	
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

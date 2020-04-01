@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculationRequest.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculation-engine</a> &gt; <a href="index.source.html" class="el_package">com.onboardingapp.metadata</a> &gt; <span class="el_source">CalculationRequest.java</span></div><h1>CalculationRequest.java</h1><pre class="source lang-java linenums">package com.onboardingapp.metadata;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import com.google.inject.Inject;
+import com.onboardingapp.calculationEngine.CalculationEngine;
+
+public class CalculationRequest {
+	CalculationEngine calcEngine;
+
+<span class="fc" id="L16">	private static String FILE_NAME = &quot;src/main/resources/onboarding.properties&quot;;</span>
+	
+<span class="fc" id="L18">	public CalculationRequest() {</span>
+
+<span class="fc" id="L20">	}</span>
+
+	@Inject
+<span class="fc" id="L23">	public CalculationRequest(CalculationEngine calcEngine) {</span>
+
+<span class="fc" id="L25">		this.calcEngine = calcEngine;</span>
+<span class="fc" id="L26">	}</span>
+
+	// Method which checks the Property file if exist only then calls the OnBoarding
+	// Calculation Method
+	public List&lt;String&gt; propertiesCheck() throws IOException {
+<span class="fc" id="L31">		List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span>
+		String jsonPath;
+		String CSVPath;
+		String targetPath;
+		String query;
+		String delimiter;
+
+<span class="fc" id="L38">		File f = new File(FILE_NAME);</span>
+		//long propFileSize = f.length();
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		if (f.exists()/* &amp;&amp; f.isFile() &amp;&amp; propFileSize != 0 */) {</span>
+<span class="fc" id="L41">			Properties props = new Properties();</span>
+<span class="fc" id="L42">			props.load(new FileInputStream(f));</span>
+<span class="fc" id="L43">			targetPath = props.getProperty(&quot;OutputPath&quot;);</span>
+<span class="fc" id="L44">			list.add(targetPath);</span>
+<span class="fc" id="L45">			query = props.getProperty(&quot;Query&quot;);</span>
+<span class="fc" id="L46">			list.add(query);</span>
+<span class="fc" id="L47">			jsonPath = props.getProperty(&quot;JsonFileName&quot;);</span>
+<span class="fc" id="L48">			list.add(jsonPath);</span>
+			//File jsonFile = new File(JsonPath);
+			//long jsonFileSize = jsonFile.length();
+			//String json_ext = FilenameUtils.getExtension(JsonPath);
+<span class="fc" id="L52">			CSVPath = props.getProperty(&quot;CSVFileName&quot;);</span>
+			//File csvFile = new File(CSVPath);
+			//long csvFileSize = csvFile.length();
+			//String csv_ext = FilenameUtils.getExtension(CSVPath);
+<span class="fc" id="L56">			list.add(CSVPath);</span>
+<span class="fc" id="L57">			delimiter = props.getProperty(&quot;CsvDelimiter&quot;);</span>
+<span class="fc" id="L58">			list.add(delimiter);</span>
+<span class="fc" id="L59">			System.out.println(&quot;Files are Ready to Go!!!&quot;);</span>
+
+			/*
+			 * if (jsonFile.exists() &amp;&amp; jsonFile.isFile() &amp;&amp; jsonFileSize != 0 &amp;&amp;
+			 * json_ext.equals(&quot;json&quot;)) { if (csvFile.exists() &amp;&amp; csvFile.isFile() &amp;&amp;
+			 * csvFileSize != 0 &amp;&amp; csv_ext.equals(&quot;csv&quot;)) {
+			 * System.out.println(&quot;Files are Ready to Go!!!&quot;); //return list; } }
+			 */
+		}
+<span class="fc" id="L68">		return list;</span>
+	}
+
+	public void makeRequest() throws IOException {
+<span class="fc" id="L72">		calcEngine.OnBoardingCalculation();</span>
+<span class="fc" id="L73">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

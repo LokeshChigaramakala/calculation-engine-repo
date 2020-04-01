@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SparkOnBoardingMainApp.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculation-engine</a> &gt; <a href="index.source.html" class="el_package">com.trp.onboardingapp</a> &gt; <span class="el_source">SparkOnBoardingMainApp.java</span></div><h1>SparkOnBoardingMainApp.java</h1><pre class="source lang-java linenums">package com.trp.onboardingapp;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.onboardingapp.config.AppModule;
+import com.onboardingapp.metadata.CalculationRequest;
+
+<span class="fc" id="L15">public class SparkOnBoardingMainApp {</span>
+	static final String status = &quot;Yes&quot;;
+<span class="fc" id="L17">	static final Logger logger = Logger.getLogger(SparkOnBoardingMainApp.class);</span>
+
+	// Implementing Loggers to SparkOnboarding_Demo
+	private void runMe(String parameter) {
+<span class="fc" id="L21">		logger.setLevel(Level.ERROR);</span>
+		
+<span class="fc" id="L23">		logger.warn(&quot;This is warn : &quot; + parameter);</span>
+<span class="fc" id="L24">		logger.error(&quot;This is error : &quot; + parameter);</span>
+<span class="fc" id="L25">		logger.fatal(&quot;This is fatal : &quot; + parameter);</span>
+<span class="fc" id="L26">	}</span>
+
+	public static void sendRequest(String status) throws IOException {
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">		if (status.equals(&quot;Yes&quot;)) {</span>
+			// creating the injector with te AppModule
+<span class="fc" id="L32">			Injector inject = Guice.createInjector(new AppModule());</span>
+			// Instantiating method with Guice
+<span class="fc" id="L34">			CalculationRequest request = inject.getInstance(CalculationRequest.class);</span>
+<span class="fc" id="L35">			request.makeRequest();</span>
+		}
+<span class="fc" id="L37">	}</span>
+
+	public static void main(String[] args) {
+<span class="fc" id="L40">		startApplication();</span>
+<span class="fc" id="L41">	}</span>
+
+	public static void startApplication() {
+<span class="fc" id="L44">		logger.info(&quot;Application starts !!!&quot;);</span>
+<span class="fc" id="L45">		System.setProperty(&quot;hadoop.home.dir&quot;, &quot;C://winutils&quot;);</span>
+<span class="fc" id="L46">		SparkOnBoardingMainApp log = new SparkOnBoardingMainApp();</span>
+<span class="fc" id="L47">		log.runMe(&quot;OnBoardingSparkApplication&quot;);</span>
+<span class="fc" id="L48">		String log4jConfigFile = System.getProperty(&quot;user.dir&quot;) + File.separator + &quot;log4j.properties&quot;;</span>
+<span class="fc" id="L49">		PropertyConfigurator.configure(log4jConfigFile);</span>
+		try {
+<span class="fc" id="L51">			sendRequest(status);</span>
+<span class="nc" id="L52">		} catch (IOException e) {</span>
+<span class="nc" id="L53">			e.printStackTrace();</span>
+<span class="fc" id="L54">		}</span>
+<span class="fc" id="L55">		System.out.println(&quot;File Created !!!&quot;);</span>
+<span class="fc" id="L56">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

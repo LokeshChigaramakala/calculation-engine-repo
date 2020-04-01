@@ -6,15 +6,15 @@ import java.util.List;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SaveMode;
 
-import com.onboardingapp.Metadata.CalculationRequest;
+import com.onboardingapp.metadata.CalculationRequest;
 
 public class OnBoardingCalculation implements CalculationEngine {
 
 	@Override
 	public void OnBoardingCalculation() throws IOException {
 		// TODO Auto-generated method stub
-		 CalculationRequest cr=new CalculationRequest();
-		 System.setProperty("hadoop.home.dir", "C://winutils"); 
+		 	CalculationRequest cr= new CalculationRequest();
+		 	System.setProperty("hadoop.home.dir", "C://winutils"); 
 	        List<String> proplist = cr.propertiesCheck();
 	        String TargetPath=proplist.get(0);
 	        String Query=proplist.get(1);
@@ -30,6 +30,7 @@ public class OnBoardingCalculation implements CalculationEngine {
 	        Dataset resultdf = sparksession.sql(Query);
 	        resultdf.repartition(1).write().mode(SaveMode.Overwrite)
 	        .option("header", true).json(TargetPath);
+	        resultdf.show();
 		
 	}
 	public Dataset transcoreMethod(String JsonPath)

@@ -44,8 +44,8 @@ public class OnBoardingSparkApplication implements Context {
 	    }
 	    
 	    public static void InputfileProcess( OnBoardingSparkApplication log) throws FileNotFoundException, IOException {
-	    	 log.runMe("OnBoardingSparkApplication");
-	    	 System.setProperty("hadoop.home.dir", "C://winutils"); 
+	    	    log.runMe("OnBoardingSparkApplication");
+	    	    System.setProperty("hadoop.home.dir", "C://winutils"); 
 		        File f = new File("src/main/resources/onboarding.properties");
 		        Properties p = new Properties();
 		        p.load(new FileInputStream(f));

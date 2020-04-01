@@ -14,7 +14,7 @@ public class OnBoardingSparkApplicationTest {
 	OnBoardingSparkApplication onBoarding=new OnBoardingSparkApplication();
 	
 	 @Rule
-	    public TemporaryFolder folder = new TemporaryFolder();
+	 public TemporaryFolder folder = new TemporaryFolder();
 
 	@Test
 	public void testRunme() {
@@ -23,7 +23,7 @@ public class OnBoardingSparkApplicationTest {
 	}
 	@Test
 	public void testInputfileProcess() throws FileNotFoundException, IOException {
-		OnBoardingSparkApplication.InputfileProcess(onBoarding);
+		onBoarding.InputfileProcess(onBoarding);
 		
 	}
 	
